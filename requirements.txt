@@ -1,2 +1,3 @@
 pymdptoolbox
 numpy
+dotenv
