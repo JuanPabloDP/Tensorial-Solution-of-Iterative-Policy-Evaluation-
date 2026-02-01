@@ -8,11 +8,15 @@ d=4
 r=-1
 pi=1/4
 
+gamma=1
+
 V_0=np.zeros(N)
 
 R=np.full(N,r)
 
 PI=np.full(m,pi)
+
+PI2=np.full((m,N),pi)
 
 P_up=np.zeros((N,N))
 P_down=np.zeros((N,N))
@@ -57,12 +61,18 @@ RV=R+V_0
 
 RVP=np.tensordot(P,RV,axes=1)
 
-V_1=PI @ RVP
+V_1=PI @ RVP 
 
 V_2=PI @ np.tensordot(P,R+V_1,axes=1)
 
 iters=1000
 
 for i in range(iters):
-    V_1=PI @ np.tensordot(P,R+V_0,axes=1)
-    V_0=V_1
+    V_i=PI @ np.tensordot(P,R+V_0,axes=1)
+    V_0=V_i
+
+
+for i in range(iters):
+    Q_i=np.tensordot(P,R+gamma*V_0,axes=1)
+    V_i=PI @ Q_i
+    V_0=V_i
