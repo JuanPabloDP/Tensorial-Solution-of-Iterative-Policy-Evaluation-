@@ -2,10 +2,10 @@
 import numpy as np
 
 from scripts.defineProblem import build_vectors
-from scripts.tensorial_solution import iter_policy_evaluation
+from scripts.tensorialSolution import iter_policy_evaluation
 
 def main() -> None:
-    gamma=1 
+    gamma=1 #gamma is a parameter called the discount rate
     iterations=1000
 
     V_0,R,PI,P=build_vectors()
