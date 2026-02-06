@@ -8,7 +8,7 @@ $$
 \end{equation}
 $$
 
-Repository shows the implementation of the new proposal and it is applied to a gridworld environment problem (shown in Example 4.1, Chapter 4 Dynamic Programming of "Reinforcement Learning, An Introduction" book) showing it usability.
+Repository shows the implementation of the new proposal and it is applied to a gridworld environment problem (Example 4.1, Chapter 4 Dynamic Programming of "Reinforcement Learning, An Introduction" book) showing it usability.
 
 ![Example 4.1](figures/figure1.png){width=600}
 
