@@ -8,7 +8,7 @@ def main() -> None:
     gamma=1 #gamma is a parameter called the discount rate
     iterations=1000
 
-    V_0,R,PI,P=build_vectors()
+    V_0,R,PI,P,_=build_vectors()
 
     V_i=iter_policy_evaluation(V_0,R,PI,P,gamma,iterations)
 

@@ -14,7 +14,9 @@ def build_vectors():
     R=np.full(num_states,reward) #reward vector
     PI=np.full(num_actions,prob_action) #probabilities vector
     P=transition_tensor(num_states) #transition matrices tensor
-    return V_0,R,PI,P
+    P_low=np.argmax(P,axis=2)
+    P_low[P.sum(axis=2) == 0] = -1
+    return V_0,R,PI,P,P_low
 
 def transition_tensor(num_states,grid_length=4):
     P_up=np.zeros((num_states,num_states)) #up transition matrix
