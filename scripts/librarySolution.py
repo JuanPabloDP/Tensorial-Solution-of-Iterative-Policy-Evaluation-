@@ -1,39 +1,57 @@
 import numpy as np
 
+def define_problem():
+    num_states=15 #number of states 
+    num_actions=4 #numer of possible actions
+    reward=-1 #reward on all transitions
+    return num_states,num_actions,reward
+
 def build_environment():
-    n = 4
-    N = n * n
-    gamma = 0.99
-    r = -1
+    num_states,num_actions,reward=define_problem()
 
-    P = []
-    R = []
+    R=np.full((num_states,num_actions),reward) #reward matrix
+    R[0,:]=0
+    P=transition_tensor(num_states) #transition matrices tensor
+    return R,P
 
-    for a in ["up", "down", "left", "right"]:
-        P_a = np.zeros((N, N))
-        R_a = np.full((N, N), r)
+def transition_tensor(num_states,grid_length=4):
+    P_up=np.zeros((num_states,num_states)) #up transition matrix
+    P_down=np.zeros((num_states,num_states)) #down transition matrix
+    P_right=np.zeros((num_states,num_states)) #right transition matrix
+    P_left=np.zeros((num_states,num_states)) #left transition matrix 
 
-        for s in range(N):
-            row, col = divmod(s, n)
+    for i in range(num_states):
+        if i<grid_length:
+            P_up[i,i]=1
+        if i>=grid_length*(grid_length-1):
+            P_down[i,i]=1
+        for j in range(num_states):
+            if i-j==grid_length:
+                P_up[i,j]=1
+            if j-i==grid_length:
+                P_down[i,j]=1
+            if (i+1)%grid_length==0:
+                P_right[i,i]=1
+            elif j-i==1:
+                P_right[i,j]=1
+            if i%grid_length==0:
+                P_left[i,i]=1
+            elif i-j==1:
+                P_left[i,j]=1
 
-            if a == "up":
-                next_row, next_col = max(row - 1, 0), col
-            elif a == "down":
-                next_row, next_col = min(row + 1, n - 1), col
-            elif a == "left":
-                next_row, next_col = row, max(col - 1, 0)
-            elif a == "right":
-                next_row, next_col = row, min(col + 1, n - 1)
+    #Especial corrections
+    P_down[11,0]=1
+    P_right[14,0]=1
+    #P_up[0,0]=0
+    P_down[0,4]=0
+    P_down[0,0]=1
+    P_right[0,1]=0
+    P_right[0,0]=1
+    #P_left[0,0]=0
 
-            s_next = next_row * n + next_col
-            P_a[s, s_next] = 1.0
+    return np.array([P_up,P_down,P_right,P_left]) 
 
-        for t in [0, 15]:
-            P_a[t, :] = 0
-            P_a[t, t] = 1.0
-            R_a[t, :] = 0
-
-        P.append(P_a)
-        R.append(R_a)
+if __name__ == '__main__':
+    R,P=build_environment()
+    ...
     
-    return P,R
